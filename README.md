@@ -26,9 +26,9 @@ Welcome to my Data Science Portfolio! I'm Jose Vera, a data scientist passionate
 
 ## Repository Links
 
-- [Fake News Classifier](link-to-fake-news-repo)
-- [Battery Decision](link-to-battery-decision-repo)
-- [Text Classification](link-to-text-classification-repo)
+- [Fake News Classifier](https://github.com/joseosvaldo16/Portafolio/tree/06c152b9a6e082f88aa829db77a2bbb3e7cfc902/Fake_News_Classifier_NLP)
+- [Battery Decision](https://github.com/joseosvaldo16/Portafolio/tree/06c152b9a6e082f88aa829db77a2bbb3e7cfc902/Internship_Projects/Battery_Decision)
+- [Text Classification](https://github.com/joseosvaldo16/Portafolio/tree/06c152b9a6e082f88aa829db77a2bbb3e7cfc902/Internship_Projects/Text_Classification)
 
 Feel free to explore the individual project repositories for more details and code.
 
