@@ -34,5 +34,5 @@ Feel free to explore the individual project repositories for more details and co
 
 ## Contact
 
-You can reach out to me on [LinkedIn](linkedin-profile-link) for any inquiries or collaborations.
+You can reach out to me on [LinkedIn](https://www.linkedin.com/in/jvera3/) for any inquiries or collaborations.
 
