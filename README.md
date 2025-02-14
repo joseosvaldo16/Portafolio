@@ -23,14 +23,7 @@ Welcome to my Data Science Portfolio! I'm **Jose(Rafa) Vera**, a data scientist 
 ### [Fake News Classifier](https://github.com/joseosvaldo16//Fake_News_Classifier_NLP)
 - **Description**: Implemented a naive Bayes classifier from scratch to differentiate between fake news and real news articles.
 - **Technologies Used**: Python, Naive Bayes, Natural Language Processing.
-- **Results**: Achieved an accuracy of 98% in classifying news articles.
-
-
-#### - [SalesBooking-Chatbot-App](https://github.com/joseosvaldo16/SalesBookingChatBot)
-- **Description**: Adapted this application to automate the sales booking process by handling user inquiries in natural language. It interprets queries, converts them into SQL statements, and records or retrieves sales information from the database. GPT helps select relevant tables, correct misspellings, and format results. The chatbot dcan be deployed across multiple Azure channels.
-- **Technologies Used**: Python, Microsoft Bot Framework, Azure Bot Services, Azure App Services, GPT-4, langchain, SQL, sqlite3.
-- **Results**: Enhances sales booking by returning precise database records in an average of 5 seconds. Source code is not publicly available but can be shared upon request (with necessary omissions) as it is proprietary.
-
+- **Results**: Achieved an accuracy of 98% in classifying news articles
 
 ### [Deploying_With_ONNX](https://github.com/joseosvaldo16/Deploying_With_ONNX)
 - **Description**: Demonstrated how to deploy a machine learning model using ONNX for inference. This demostrates how a model can be trained in one framework and deployed in another. 
