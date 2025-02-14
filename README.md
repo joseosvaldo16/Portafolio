@@ -1,6 +1,6 @@
 # Data Science Portfolio
 
-Welcome to my Data Science Portfolio! I'm Jose Vera, a data scientist passionate about solving real-world problems and extracting insights from data. This portfolio showcases some of my projects and contributions in the field of data science.
+Welcome to my Data Science Portfolio! I'm **Jose(Rafa) Vera**, a data scientist passionate about solving real-world problems and extracting insights from data. This portfolio showcases some of my projects and contributions in the field of data science and machine learning.
 
 ## Internship Projects
 
