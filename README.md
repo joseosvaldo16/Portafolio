@@ -4,6 +4,7 @@ Focus areas:
 - Production ML systems and deployment
 - LLM-based applications (RAG, agents, structured querying)
 - Data-driven decision systems (time series, anomaly detection)
+- Cloud automation and validation workflows
 
 ---
 
@@ -11,8 +12,8 @@ Focus areas:
 
 | Project | Area | Focus |
 |---|---|---|
-| [SalesBooking Chatbot](#1-salesbooking-chatbot--azure--llm) | LLM / Systems | NL → SQL, Azure deployment, multi-channel |
-| [SQL Chatbot](#2-sql-chatbot-with-llm) | LLM | NL → SQL, schema grounding, query generation |
+| [conversational-analytics-bot](#1-conversational-analytics-bot--azure--llm) | LLM / Systems | NL → SQL, Azure, multi-channel |
+| [Inventory Automation Portfolio](#2-inventory-automation-portfolio--azure-functions--power-bi--sharepoint) | Data / Systems | Azure Functions, DAX, Graph API, validation |
 | [Battery Decision System](#3-battery-decision-system-tabnet) | ML | TabNet vs XGBoost, class imbalance, feature engineering |
 | [ONNX Deployment](#4-model-deployment-with-onnx) | Systems | Framework-agnostic inference, model optimization |
 | [Text Classification](#additional-projects) | NLP | Embedding-based classification, multi-class |
@@ -23,77 +24,89 @@ Focus areas:
 
 ## Featured Projects
 
-### 1. SalesBooking Chatbot — Azure + LLM
+### 1. Conversational Analytics Bot — Azure + LLM
 
-**Problem:** Automate sales booking workflows by enabling natural language interaction with a structured SQL database, deployed at scale across enterprise channels.
+Built a domain-agnostic conversational analytics bot that allows business users to ask natural-language questions about structured data and receive database-backed answers directly in chat. The system uses Azure OpenAI to interpret user intent, generate validated SQL, execute queries, and return formatted results through Adaptive Cards.
 
-**Why it matters:** Bridges the gap between non-technical users and production databases, reducing query latency and manual data entry in sales operations.
+--Problem:-- Business users often need answers from structured databases but may not know SQL, database schemas, or where specific metrics live. This creates dependency on analysts and engineers for routine reporting questions, slowing down exploratory analysis and operational decision-making.
 
-**Key technical components:**
-- LLM-based NL → SQL pipeline with table selection and keyword correction
-- Multi-step GPT-4 prompting for schema grounding and result formatting
-- Deployment via Azure Bot Services and Azure App Services (multi-channel)
-- Average query-to-response latency: ~5 seconds on production data
+--Why it matters:-- The bot reduces friction between business questions and operational data by making analytics more self-service. Instead of submitting requests or writing SQL manually, users can ask questions conversationally and receive structured, query-backed responses. The architecture is reusable across domains by swapping the schema, prompts, and database configuration.
 
-**Repo:** [SalesBooking-Chatbot-App](https://github.com/joseosvaldo16/SalesBookingChatBot)
+--Key technical components:--
+- Microsoft Bot Framework: Conversational bot interface with aiohttp routing through /api/messages, suitable for Microsoft Teams-style or Web Chat interactions.
+- Azure OpenAI: Intent routing, natural-language interpretation, SQL generation, and response synthesis.
+- Natural-language-to-SQL pipeline: Converts user questions into SQL, validates generated queries, executes them against a structured database, and returns database-backed answers.
+- SQL validation and formatting: Adds safeguards to reduce malformed or unsafe SQL execution before queries are run.
+- Adaptive Cards: Presents query results in a structured, chat-native format instead of plain text only.
+- Authentication: Uses Bot Framework OAuthPrompt to manage user sign-in before accessing analytics functionality.
+- State management: Supports Azure Cosmos DB for persistent bot state, with an in-memory fallback for local development.
+
+--Repo:-- [Conversational Analytics Bot App](https://github.com/joseosvaldo16/conversational-analytics-bot)
+
 
 ---
 
-### 2. SQL Chatbot with LLM
+### 2. Inventory Automation Portfolio — Azure Functions + Power BI + SharePoint
 
-**Problem:** Enable natural language querying over SQL databases with high column cardinality and large numbers of tables, where direct schema lookup is impractical.
+Built a serverless automation pipeline that generates a recurring Excel-based report by querying a Power BI semantic model with DAX, populating a SharePoint-hosted workbook template, validating the output against live source data, and publishing artifacts back to SharePoint with notification support.
 
-**Why it matters:** Demonstrates LLM system design beyond simple prompt chaining — the architecture handles schema grounding, ambiguity resolution, and multi-step reasoning.
+--Problem:-- Operational reporting pipelines often rely on manual spreadsheet updates, copy-paste workflows, and fragile handoff steps between analytics and business teams. That makes recurring reporting slow, error-prone, and difficult to audit.
 
-**Key technical components:**
-- Multi-step GPT-4 pipeline: table selection → keyword correction → SQL generation
-- Schema-aware prompting to handle large, ambiguous databases
-- Modular design separating query understanding, generation, and execution
-- Built with LangChain and sqlite3
+--Why it matters:-- This project demonstrates how to turn a spreadsheet-driven reporting process into a production-style automation workflow with validation gates, cloud auth, structured artifacts, and serverless execution. It highlights the engineering side of analytics automation, not just model building.
 
-**Repo:** [SQL-Chatbot](https://github.com/joseosvaldo16/SQL-ChatBot)
+--Key technical components:--
+- Azure Functions: HTTP and timer triggers for on-demand and scheduled execution.
+- Power BI + DAX: Pulls structured report sections directly from a semantic model through REST API calls and generated DAX queries.
+- SharePoint / Microsoft Graph: Downloads the template workbook, uploads generated outputs, and manages artifact folders programmatically.
+- Excel automation: Uses `openpyxl` to populate multi-sheet workbooks while preserving template structure and formatting.
+- Validation layer: Rebuilds expected workbook values from source data and blocks publishing when mismatches are detected.
+- Auth strategy design: Supports managed identity, client credentials, and Azure CLI fallback depending on runtime environment.
+- Notification artifacts: Produces machine-readable and human-readable run outputs for success/failure reporting.
+
+--Repo:-- [Inventory Automation Portfolio](https://github.com/joseosvaldo16/Inventory_Metrics_Automation)
 
 ---
 
 ### 3. Battery Decision System (TabNet)
 
-**Problem:** Classify battery state under domain-specific constraints and evaluate whether a more expressive architecture (TabNet) outperforms an existing XGBoost baseline on imbalanced data.
+--Problem:-- Classify battery state under domain-specific constraints and evaluate whether a more expressive architecture (TabNet) outperforms an existing XGBoost baseline on imbalanced data.
 
-**Why it matters:** Real-world classification problems often involve class imbalance and domain constraints that make standard accuracy metrics misleading — this project addresses both.
+--Why it matters:-- Real-world classification problems often involve class imbalance and domain constraints that make standard accuracy metrics misleading — this project addresses both.
 
-**Key technical components:**
+--Key technical components:--
 - TabNet vs XGBoost comparison under class imbalance conditions
 - Feature engineering tailored to battery domain characteristics
 - Evaluation focused on F1-score rather than raw accuracy
 - Analysis of model behavior under dataset constraints
 
-**Repo:** [Battery Decision](https://github.com/joseosvaldo16/Internship_Projects/tree/main/Battery_Decision)
+--Repo:-- [Battery Decision](https://github.com/joseosvaldo16/Internship_Projects/tree/main/Battery_Decision)
 
 ---
 
 ### 4. Model Deployment with ONNX
 
-**Problem:** Deploy a PyTorch-trained model for inference in a framework-agnostic runtime, decoupling training from serving.
+--Problem:-- Deploy a PyTorch-trained model for inference in a framework-agnostic runtime, decoupling training from serving.
 
-**Why it matters:** Demonstrates understanding of the training-inference boundary — a key concern in production ML systems.
+--Why it matters:-- Demonstrates understanding of the training-inference boundary — a key concern in production ML systems.
 
-**Key technical components:**
+--Key technical components:--
 - PyTorch → ONNX export pipeline
 - ONNX Runtime inference setup
 - Separation of training and inference environments
 - Cross-framework compatibility verification
 
-**Repo:** [Deploying_With_ONNX](https://github.com/joseosvaldo16/Deploying_With_ONNX)
+--Repo:-- [Deploying_With_ONNX](https://github.com/joseosvaldo16/Deploying_With_ONNX)
 
 ---
 
 ## Engineering Capabilities Demonstrated
 
-- **LLM system design** — multi-step prompting, schema grounding, structured outputs, retrieval
-- **Model deployment** — ONNX export, API-based serving, Azure cloud deployment
-- **Data pipelines and feature engineering** — structured and unstructured data (SQL, PDF, text)
-- **Model evaluation and error analysis** — F1-score, class imbalance handling, baseline comparison
-- **Containerization and cloud** — Azure Bot Services, Azure App Services, Docker-ready setups
+- --LLM system design-- — multi-step prompting, schema grounding, structured outputs, retrieval
+- --Workflow automation and validation-- — serverless pipelines, artifact generation, data-quality gates
+- --Model deployment-- — ONNX export, API-based serving, Azure cloud deployment
+- --Data pipelines and feature engineering-- — structured and unstructured data (SQL, PDF, text)
+- --Model evaluation and error analysis-- — F1-score, class imbalance handling, baseline comparison
+- --Containerization and cloud-- — Azure Bot Services, Azure App Services, Docker-ready setups
 
 ---
 
@@ -115,11 +128,11 @@ Projects emphasize:
 
 Tradeoffs addressed across projects:
 
-- **Latency vs accuracy** — multi-step LLM pipelines improve accuracy at the cost of latency; the SalesBooking chatbot targets ~5s end-to-end
-- **Model complexity vs interpretability** — TabNet chosen over deep networks for structured tabular data where feature attribution matters
-- **LLM cost vs quality** — multi-step GPT-4 calls increase cost but reduce hallucinated SQL; schema grounding reduces invalid query rates
-- **Handling class imbalance** — battery classification evaluated on F1-score rather than accuracy to avoid misleading results on skewed distributions
-- **Framework lock-in** — ONNX deployment explicitly targets cross-framework portability over single-framework optimization
+- --Latency vs accuracy-- — multi-step LLM pipelines improve accuracy at the cost of latency; the conversational analytics bot targets ~5s end-to-end
+- --Model complexity vs interpretability-- — TabNet chosen over deep networks for structured tabular data where feature attribution matters
+- --LLM cost vs quality-- — multi-step GPT-4 calls increase cost but reduce hallucinated SQL; schema grounding reduces invalid query rates
+- --Handling class imbalance-- — battery classification evaluated on F1-score rather than accuracy to avoid misleading results on skewed distributions
+- --Framework lock-in-- — ONNX deployment explicitly targets cross-framework portability over single-framework optimization
 
 ---
 
@@ -146,9 +159,9 @@ Projects with cloud dependencies (Azure) include configuration templates for ser
 
 Lower-emphasis exploratory and baseline work:
 
-- **[Text Classification](https://github.com/joseosvaldo16/Internship_Projects/tree/main/Text_Classification)** — Multi-class text classification using OpenAI embeddings + XGBoost vs deep learning; 75% accuracy on domain-specific issue descriptions
-- **[Fake News Classifier](https://github.com/joseosvaldo16/Fake_News_Classifier_NLP)** — Naive Bayes classifier implemented from scratch for binary NLP classification; useful as a baseline modeling reference
-- **[PDF Data Extraction](https://github.com/joseosvaldo16/PDF_Data_Extaction)** — Hybrid PDF parsing pipeline combining PDFMiner (text-based) and pytesseract (scanned/OCR), with GPT-4 for structured knowledge extraction
+- --[Text Classification](https://github.com/joseosvaldo16/Internship_Projects/tree/main/Text_Classification)-- — Multi-class text classification using OpenAI embeddings + XGBoost vs deep learning; 75% accuracy on domain-specific issue descriptions
+- --[Fake News Classifier](https://github.com/joseosvaldo16/Fake_News_Classifier_NLP)-- — Naive Bayes classifier implemented from scratch for binary NLP classification; useful as a baseline modeling reference
+- --[PDF Data Extraction](https://github.com/joseosvaldo16/PDF_Data_Extaction)-- — Hybrid PDF parsing pipeline combining PDFMiner (text-based) and pytesseract (scanned/OCR), with GPT-4 for structured knowledge extraction
 
 ---
 
@@ -165,4 +178,3 @@ Lower-emphasis exploratory and baseline work:
 ## Contact
 
 [LinkedIn](https://www.linkedin.com/in/jvera3/) — open to collaborations and inquiries.
-
