@@ -16,6 +16,7 @@ Focus areas:
 | [Inventory Automation Portfolio](#2-inventory-automation-portfolio--azure-functions--power-bi--sharepoint) | Data / Systems | Azure Functions, DAX, Graph API, validation |
 | [Battery Decision System](#3-battery-decision-system-tabnet) | ML | TabNet vs XGBoost, class imbalance, feature engineering |
 | [ONNX Deployment](#4-model-deployment-with-onnx) | Systems | Framework-agnostic inference, model optimization |
+| [FDA 510(k) Document Intelligence](#5-fda-510k-document-intelligence) | Healthcare / AI | PDF extraction, OCR, evidence-backed device relationships |
 | [Text Classification](#additional-projects) | NLP | Embedding-based classification, multi-class |
 | [Fake News Classifier](#additional-projects) | NLP | Baseline NLP modeling, Naive Bayes from scratch |
 | [PDF Data Extraction](#additional-projects) | Data Engineering | Hybrid PDF parsing (text + OCR), LLM structuring |
@@ -96,6 +97,25 @@ Built a serverless automation pipeline that generates a recurring Excel-based re
 - Cross-framework compatibility verification
 
 --Repo:-- [Deploying_With_ONNX](https://github.com/joseosvaldo16/Deploying_With_ONNX)
+
+---
+
+### 5. FDA 510(k) Document Intelligence
+
+Built a healthcare document intelligence workflow that turns public FDA 510(k) submissions into structured, evidence-backed records of predicate and reference device relationships.
+
+--Problem:-- Regulatory reviewers must search long, inconsistent PDFs and scanned pages to identify device relationships and verify the supporting evidence manually.
+
+--Why it matters:-- The workflow reduces manual document review while keeping page-level source evidence attached to every extracted relationship, making results easier to verify and reuse in regulatory datasets or document-review applications.
+
+--Key technical components:--
+- PDF text extraction with `pypdf` and `pdfplumber`, with selective Azure Document Intelligence OCR for problematic pages
+- Rule-based matching that distinguishes primary predicates, additional predicates, and reference devices
+- Optional Azure OpenAI review with Pydantic-validated structured responses
+- Evidence validation that preserves source text, page numbers, and review status
+- JSONL, CSV, and Parquet exports for downstream analysis
+
+--Repo:-- [FDA 510(k) Document Intelligence](https://github.com/joseosvaldo16/fda-510k-document-intelligence)
 
 ---
 
